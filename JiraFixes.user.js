@@ -2,13 +2,14 @@
 // @name          Misc JIRA Fixes
 // @namespace     http://github.com/jorgenpt/userscripts/
 // @description   Various fixes for JIRA, like removing optgroups from the assign dropdowns (Since Google Chrome won't let you type-to-complete optgroups).
-// @include       https://*.onjira.com/browse/*
+// @include       https://*.onjira.com/*
+//
 // @version       0.1
 // @author        jorgenpt
 // ==/UserScript==
 
 var domChangeTimer = null;
-window.addEventListener("load", fixupSelects, false);
+fixupSelects();
 
 function fixupSelects()
 {

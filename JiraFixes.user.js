@@ -4,7 +4,7 @@
 // @description   Various fixes for JIRA, like removing optgroups from the assign dropdowns (Since Google Chrome won't let you type-to-complete optgroups).
 // @include       https://*.onjira.com/*
 //
-// @version       0.1
+// @version       0.1.1
 // @author        jorgenpt
 // ==/UserScript==
 
@@ -28,11 +28,10 @@ function fixupSelects()
         if (select.name != "assignee")
             continue;
 
-        var groupsToRemove = [];
         var groups = select.getElementsByTagName("optgroup");
-        for (var j = 0; j < groups.length; ++j)
+        while (groups.length > 0)
         {
-            var group = groups[j];
+            var group = groups[0];
 
             var newSeparator = separator.cloneNode(true);
             newSeparator.innerHTML = group.getAttribute("label");
@@ -40,18 +39,14 @@ function fixupSelects()
 
             // Reparent each child of this optgroup.
             var children = group.children;
-            for (var k = 0; k < children.length; ++k)
+            while (children.length > 0)
             {
-                var child = children[k];
+                var child = children[0];
                 group.removeChild(child);
                 select.insertBefore(child, group);
             }
-            groupsToRemove.push(group);
-        }
 
-        for (var j = 0; j < groupsToRemove.length; ++j)
-        {
-            select.removeChild(groupsToRemove[j]);
+            select.removeChild(group);
         }
     }
 
